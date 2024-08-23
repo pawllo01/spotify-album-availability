@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Spotify Album Availability
 // @namespace    https://github.com/pawllo01/spotify-album-availability
-// @version      1.0
+// @version      1.1
 // @description  Show in which countries the album is available and in which it is unavailable.
 // @author       pawllo01
 // @match        https://open.spotify.com/*
@@ -273,7 +273,7 @@
   }
 
   function getAlbumCountries(albumData) {
-    const availableCountries = albumData.available_markets;
+    const availableCountries = albumData.available_markets.sort();
 
     const unavailableCountries = Object.keys(COUNTRIES).filter(
       (country) => !availableCountries.includes(country)
