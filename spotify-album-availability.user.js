@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Spotify Album Availability
 // @namespace    https://github.com/pawllo01/spotify-album-availability
-// @version      1.1
+// @version      1.2
 // @description  Show in which countries the album is available and in which it is unavailable.
 // @author       pawllo01
 // @match        https://open.spotify.com/*
@@ -362,14 +362,9 @@
 
   async function getToken() {
     try {
-      const res = await fetch('https://open.spotify.com/');
-      const html = await res.text();
-      const doc = new DOMParser().parseFromString(html, 'text/html');
-
-      const session = doc.querySelector('#session');
-      const sessionData = JSON.parse(session.textContent);
-
-      return sessionData.accessToken;
+      const res = await fetch('https://open.spotify.com/get_access_token');
+      const data = await res.json();
+      return data.accessToken;
     } catch (error) {
       console.error(error);
       return null;
