@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Spotify Album Availability
 // @namespace    https://github.com/pawllo01/spotify-album-availability
-// @version      1.2
+// @version      1.3
 // @description  Show in which countries the album is available and in which it is unavailable.
 // @author       pawllo01
 // @match        https://open.spotify.com/*
@@ -12,8 +12,12 @@
 (async function () {
   'use strict';
 
+  // SETTINGS
   const YOUR_COUNTRY_CODE = '';
+  const showMusicBrainzLookup = false;
+  const showWorldMap = true;
 
+  // countries
   const COUNTRIES = {
     AD: 'Andorra',
     AE: 'United Arab Emirates',
@@ -241,8 +245,16 @@
           // label & upc
           document.querySelector('div.rTMkDBDp47Eo12ZEQv4U').insertAdjacentHTML(
             'beforeend',
-            `<p dir="auto" data-encore-id="type" class="Type__TypeElement-sc-goli3j-0 gBYjgG">Label: ${albumData?.label}</p>
-             <p dir="auto" data-encore-id="type" class="Type__TypeElement-sc-goli3j-0 gBYjgG">UPC: ${albumData?.external_ids?.upc}</p>`
+            `<p dir="auto" data-encore-id="type" class="Type__TypeElement-sc-goli3j-0 gBYjgG">Label: ${
+              albumData?.label
+            }</p>
+             <p dir="auto" data-encore-id="type" class="Type__TypeElement-sc-goli3j-0 gBYjgG">UPC: ${
+               albumData?.external_ids?.upc
+             }${
+              showMusicBrainzLookup
+                ? ` - <a href="https://musicbrainz.org/search?query=barcode%3A${albumData?.external_ids?.upc}&type=release&limit=25&method=advanced" target="_blank">Search on MusicBrainz</a>`
+                : ''
+            }</p>`
           );
 
           // tempDiv
@@ -252,7 +264,7 @@
 
           // album availability
           albumContainer.insertBefore(avalabilityElementNode, albumContainer.children[4]);
-          embedGeoChart(albumCountries, albumContainer);
+          if (showWorldMap) embedGeoChart(albumCountries, albumContainer);
         }
       }, 200);
     }
