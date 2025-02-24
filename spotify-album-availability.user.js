@@ -321,7 +321,7 @@
     };
 
     return `
-      <div class="contentSpacing">
+      <div class="contentSpacing" style="margin-top: 12px;">
         <h2 class="encore-text encore-text-title-small encore-internal-color-text-base ListRowTitle__ListRowText-sc-1xe2if1-1 eFGzcP KpzkVLd9fh2ZrKqZoFg5 UlehPmBIEi_jcHtJ7hzo HvUDqar3bHYPh54F2NIA">Album Availability</h2>
         ${createCountryList('Available in', albumCountries.availableCountries)}
         ${createCountryList('Unavailable in', albumCountries.unavailableCountries)}
