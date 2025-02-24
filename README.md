@@ -19,3 +19,7 @@ const YOUR_COUNTRY_CODE = 'GB';
 ```
 
 ![](images/highlight.png)
+
+### MusicBrainz Lookup (Optional)
+
+You can enable MusicBrainz Lookup by setting `showMusicBrainzLookup` to `true`. The link will appear next to the UPC code, allowing you to quickly find the release on MusicBrainz.
