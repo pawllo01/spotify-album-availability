@@ -6,7 +6,7 @@ Show in which countries the album is available and in which it is unavailable. A
 
 ## Installing
 
-Install [the script](https://github.com/pawllo01/spotify-album-availability/raw/master/spotify-album-availability.user.js) using [Tampermonkey](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo) or another userscript manager.
+Install [the script](https://github.com/pawllo01/spotify-album-availability/raw/main/spotify-album-availability.user.js) using [Tampermonkey](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo) or another userscript manager.
 
 If you're using Tampermonkey, make sure to enable Developer Mode. - [tutorial](https://www.tampermonkey.net/faq.php?locale=en#Q209)
 
