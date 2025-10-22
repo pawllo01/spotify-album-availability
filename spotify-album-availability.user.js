@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Spotify Album Availability
 // @namespace    https://github.com/pawllo01/spotify-album-availability
-// @version      1.3
+// @version      1.4
 // @description  Show in which countries the album is available and in which it is unavailable.
 // @author       pawllo01
 // @match        https://open.spotify.com/*
@@ -243,7 +243,7 @@
           clearInterval(intervalId);
 
           // label & upc
-          document.querySelector('div.rTMkDBDp47Eo12ZEQv4U').insertAdjacentHTML(
+          document.querySelector('div.kphFOs0nW4yaFE_2DJr2').insertAdjacentHTML(
             'beforeend',
             `<p dir="auto" data-encore-id="type" class="Type__TypeElement-sc-goli3j-0 gBYjgG">Label: ${
               albumData?.label
@@ -374,12 +374,30 @@
 
   async function getToken() {
     try {
-      const res = await fetch('https://open.spotify.com/get_access_token');
+      const url = await getApiTokenUrl();
+      const res = await fetch(url);
       const data = await res.json();
+      console.log(data);
+      console.log(data.accessToken);
       return data.accessToken;
     } catch (error) {
       console.error(error);
       return null;
     }
+  }
+
+  function getApiTokenUrl() {
+    return new Promise((resolve) => {
+      const observer = new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          if (entry.name.includes('/api/token')) {
+            observer.disconnect();
+            resolve(entry.name);
+            break;
+          }
+        }
+      });
+      observer.observe({ type: 'resource', buffered: true });
+    });
   }
 })();
