@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Spotify Album Availability
 // @namespace    https://github.com/pawllo01/spotify-album-availability
-// @version      1.4
+// @version      1.5
 // @description  Show in which countries the album is available and in which it is unavailable.
 // @author       pawllo01
 // @match        https://open.spotify.com/*
@@ -242,20 +242,29 @@
         if (albumContainer) {
           clearInterval(intervalId);
 
-          // label & upc
-          document.querySelector('div.kphFOs0nW4yaFE_2DJr2').insertAdjacentHTML(
-            'beforeend',
-            `<p dir="auto" data-encore-id="type" class="Type__TypeElement-sc-goli3j-0 gBYjgG">Label: ${
-              albumData?.label
-            }</p>
+          // try to insert label & upc
+          try {
+            const nodes = document
+              .querySelectorAll('div.contentSpacing')[3]
+              .querySelectorAll('div');
+            const copyrightDiv = nodes[nodes.length - 1];
+
+            copyrightDiv.insertAdjacentHTML(
+              'beforeend',
+              `<p dir="auto" data-encore-id="type" class="Type__TypeElement-sc-goli3j-0 gBYjgG">Label: ${
+                albumData?.label
+              }</p>
              <p dir="auto" data-encore-id="type" class="Type__TypeElement-sc-goli3j-0 gBYjgG">UPC: ${
                albumData?.external_ids?.upc
              }${
-              showMusicBrainzLookup
-                ? ` - <a href="https://musicbrainz.org/search?query=barcode%3A${albumData?.external_ids?.upc}&type=release&limit=25&method=advanced" target="_blank">Search on MusicBrainz</a>`
-                : ''
-            }</p>`
-          );
+                showMusicBrainzLookup
+                  ? ` - <a href="https://musicbrainz.org/search?query=barcode%3A${albumData?.external_ids?.upc}&type=release&limit=25&method=advanced" target="_blank">Search on MusicBrainz</a>`
+                  : ''
+              }</p>`
+            );
+          } catch (error) {
+            console.error(error);
+          }
 
           // tempDiv
           const tempDiv = document.createElement('div');
