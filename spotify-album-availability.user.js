@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Spotify Album Availability
 // @namespace    https://github.com/pawllo01/spotify-album-availability
-// @version      1.5
+// @version      1.5.1
 // @description  Show in which countries the album is available and in which it is unavailable.
 // @author       pawllo01
 // @match        https://open.spotify.com/*
@@ -228,7 +228,7 @@
 
   async function app() {
     if (location.pathname.includes('/album/')) {
-      const albumId = location.pathname.split('/')[2];
+      const albumId = location.pathname.split('/').pop();
       const albumData = await getAlbumData(albumId);
       if (!albumData) return;
       const albumCountries = getAlbumCountries(albumData);
