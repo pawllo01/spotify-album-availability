@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Spotify Album Availability
 // @namespace    https://github.com/pawllo01/spotify-album-availability
-// @version      1.5.1
+// @version      1.6
 // @description  Show in which countries the album is available and in which it is unavailable.
 // @author       pawllo01
 // @match        https://open.spotify.com/*
@@ -251,16 +251,16 @@
 
             copyrightDiv.insertAdjacentHTML(
               'beforeend',
-              `<p dir="auto" data-encore-id="type" class="Type__TypeElement-sc-goli3j-0 gBYjgG">Label: ${
+              `<p class="e-10451-text encore-text-marginal" data-encore-id="type" dir="auto">Label: ${
                 albumData?.label
               }</p>
-             <p dir="auto" data-encore-id="type" class="Type__TypeElement-sc-goli3j-0 gBYjgG">UPC: ${
+             <p class="e-10451-text encore-text-marginal" data-encore-id="type" dir="auto">UPC: ${
                albumData?.external_ids?.upc
              }${
-                showMusicBrainzLookup
-                  ? ` - <a href="https://musicbrainz.org/search?query=barcode%3A${albumData?.external_ids?.upc}&type=release&limit=25&method=advanced" target="_blank">Search on MusicBrainz</a>`
-                  : ''
-              }</p>`
+               showMusicBrainzLookup
+                 ? ` - <a href="https://musicbrainz.org/search?query=barcode%3A${albumData?.external_ids?.upc}&type=release&limit=25&method=advanced" target="_blank">Search on MusicBrainz</a>`
+                 : ''
+             }</p>`,
             );
           } catch (error) {
             console.error(error);
@@ -297,7 +297,7 @@
     const availableCountries = albumData.available_markets.sort();
 
     const unavailableCountries = Object.keys(COUNTRIES).filter(
-      (country) => !availableCountries.includes(country)
+      (country) => !availableCountries.includes(country),
     );
 
     return { availableCountries, unavailableCountries };
@@ -383,30 +383,12 @@
 
   async function getToken() {
     try {
-      const url = await getApiTokenUrl();
-      const res = await fetch(url);
+      const res = await fetch('https://spotify-album-availability-server.vercel.app/token');
       const data = await res.json();
-      console.log(data);
-      console.log(data.accessToken);
-      return data.accessToken;
+      return data.access_token;
     } catch (error) {
       console.error(error);
       return null;
     }
-  }
-
-  function getApiTokenUrl() {
-    return new Promise((resolve) => {
-      const observer = new PerformanceObserver((list) => {
-        for (const entry of list.getEntries()) {
-          if (entry.name.includes('/api/token')) {
-            observer.disconnect();
-            resolve(entry.name);
-            break;
-          }
-        }
-      });
-      observer.observe({ type: 'resource', buffered: true });
-    });
   }
 })();
