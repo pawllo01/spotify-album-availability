@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Spotify Album Availability
 // @namespace    https://github.com/pawllo01/spotify-album-availability
-// @version      1.6
+// @version      1.6.1
 // @description  Show in which countries the album is available and in which it is unavailable.
 // @author       pawllo01
 // @match        https://open.spotify.com/*
@@ -281,7 +281,9 @@
 
   async function getAlbumData(albumId) {
     try {
-      const res = await fetch(`https://api.spotify.com/v1/albums/${albumId}?access_token=${token}`);
+      const res = await fetch(`https://api.spotify.com/v1/albums/${albumId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       const data = await res.json();
 
       if (data.error) throw data.error;
